@@ -102,6 +102,17 @@ abstract class EntityManagerDecorator extends ObjectManagerDecorator implements 
         return $this->wrapped->getReference($entityName, $id);
     }
 
+    /** @param iterable<object> $entities */
+
+    /**
+     * @param iterable<object> $entities
+     * @param list<string>     $paths
+     */
+    public function preload(iterable $entities, array $paths = []): void
+    {
+        $this->wrapped->preload($entities, $paths);
+    }
+
     public function close(): void
     {
         $this->wrapped->close();

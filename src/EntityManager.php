@@ -79,6 +79,8 @@ class EntityManager implements EntityManagerInterface
      */
     private ProxyFactory $proxyFactory;
 
+    private Preloader|null $preloader = null;
+
     /**
      * The repository factory used to create dynamic repositories.
      */
@@ -536,6 +538,21 @@ class EntityManager implements EntityManagerInterface
     public function isOpen(): bool
     {
         return ! $this->closed;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+
+    /**
+     * @param iterable<object> $entities
+     * @param list<string>     $paths
+     */
+    public function preload(iterable $entities, array $paths = []): void
+    {
+        $this->preloader ??= new Preloader($this);
+
+        $this->preloader->preload($entities, $paths);
     }
 
     public function getUnitOfWork(): UnitOfWork
